@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 use std::hash::{Hash, Hasher};
 use std::mem::discriminant;
+use std::fmt;
 
 // A wrapper for an Enum, that hashes using only the variant type of the enum   
-#[derive(Debug)]
 struct EnumWrapper<T>(T);
 
 impl<T> PartialEq for EnumWrapper<T> {
@@ -20,10 +20,24 @@ impl<T> Hash for EnumWrapper<T> {
     }
 }
 
-#[derive(Debug)]
+impl<T: fmt::Debug> fmt::Debug for EnumWrapper<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
 pub struct EnumSet<T> {
     inner_set: HashSet<EnumWrapper<T>>
 } 
+
+impl<T: fmt::Debug> fmt::Debug for EnumSet<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        
+        f.debug_struct("EnumSet")
+         .finish()
+         .and(self.inner_set.fmt(f))
+    }
+}
 
 impl<T> EnumSet<T> {
     fn key_from_variant<V: Default>(&self, variant: fn(V) -> T) -> EnumWrapper<T> {
