@@ -16,16 +16,21 @@ enum MyEnum {
 fn main() {
     let mut set: EnumSet<MyEnum> = EnumSet::default();
 
-    // Insert a variant
+    // Insert different variants into the set
     set.update(MyEnum::Variant1(42));
     set.update(MyEnum::Variant2(100.0));
-
+    
     println!("{:?}", set); // Output: EnumSet{Variant1(42), Variant2(100.0)}
 
-    // Overwrite the same variant  
+    // Overwrite the same variant
     set.update(MyEnum::Variant2(200.0));
     set.update(MyEnum::Variant2(300.0));
-
+    
     println!("{:?}", set); // Output: EnumSet{Variant1(42), Variant2(300.0)}
+    
+    // Remove using variant as key
+    set.remove(MyEnum::Variant1);
+    
+    println!("{:?}", set); // Output: EnumSet{Variant2(300.0)}
 }
 ```
