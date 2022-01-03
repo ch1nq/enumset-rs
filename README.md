@@ -1,6 +1,6 @@
 # EnumSet
 
-A hybrid map/set data-structure for Enums, using the variant an enum as a key.  
+A hybrid map/set data-structure for Enums, using the variant of an enum as the key and data as the value.  
 
 ## Example usage
 
